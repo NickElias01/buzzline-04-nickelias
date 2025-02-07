@@ -1,26 +1,21 @@
 # Elias Analytics
 # Project Consumer: `project_consumer_nickelias.py`
 
-## Introduction
+## Overview
 
-The `project_consumer_nickelias.py` script is a Kafka consumer that listens to a specified Kafka topic and processes JSON messages in real-time. This consumer builds upon `json_consumer_nickelias.py` and focuses on extracting the `author` field from each incoming message to analyze message distribution by author.
+This dashboard displays four real-time visualizations:
+- Author message counts (Bar Chart)
+- Message categories distribution (Pie Chart)
+- Sentiment trends over time (Line Chart)
+- Message length distribution (Histogram)
 
-## Functionality & Insights
+## Requirements
 
-- **Real-Time Processing:** The consumer continuously polls a Kafka topic for new messages.
-- **Data Extraction:** It parses each JSON message to extract the `author` field.
-- **Insight Focus:** By tracking the frequency of messages per author, you can quickly identify the most active contributors and monitor participation trends.
-
-## Visualization: Real-Time Bar Chart
-
-The consumer generates a **real-time bar chart** that updates dynamically:
-- Each bar represents an author.
-- The height of the bar reflects the number of messages sent by that author.
-
-**Why a Bar Chart?**
-- **Clarity:** Bar charts provide a clear and immediate visual representation of categorical data.
-- **Comparisons:** They allow for easy comparisons between different authors.
-- **Trends:** The dynamic updates help in spotting trends and anomalies in real-time.
+- Python 3.x
+- Kafka broker running
+- Required Python packages:
+  ```bash
+  pip install kafka-python python-dotenv matplotlib
 
 ## Setting Up Kafka & Zookeeper
 
