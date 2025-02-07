@@ -61,9 +61,10 @@ Before running the producer and consumer, ensure that both Zookeeper and Kafka s
 
 ## Running the Project Producer (Terminal 3)
 
-To run the Kafka producer provided in the project without modifications, open a *WSL* terminal and run:
+To run the Kafka producer provided in the project without modifications, open a terminal and run:
 
 ```bash
+.\.venv\Scripts\activate
 py -m producers.project_producer_case
 ```
 
@@ -71,10 +72,11 @@ py -m producers.project_producer_case
 
 ## Running the New Project Consumer (Terminal 4)
 
-To run the `project_consumer_nickelias.py` script, open a *WSL* terminal and execute:
+To run the `project_consumer_nickelias.py` script, open a terminal and execute:
 
 ```bash
-py -m consumers.project_producer_nickelias
+.\.venv\Scripts\activate
+py -m consumers.project_consumer_nickelias
 ```
 
 This will start the consumer, and you'll see the real-time bar chart updating as new messages are processed.
