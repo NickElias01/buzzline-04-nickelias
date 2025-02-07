@@ -1,212 +1,102 @@
-# buzzline-04-case
+# Elias Analytics
+# Project Consumer: `project_consumer_nickelias.py`
 
-We can analyze and visualize different types of streaming data as the information arrives.
+## Introduction
 
-The producers don't change from buzzline-03-case - they write the same information to a Kafka topic, except the csv producer for the smart smoker has been modified to not run continuously. It will stop after reading all the rows in the CSV file. 
-The consumers have been enhanced to add visualization. 
+The `project_consumer_nickelias.py` script is a Kafka consumer that listens to a specified Kafka topic and processes JSON messages in real-time. This consumer builds upon `json_consumer_nickelias.py` and focuses on extracting the `author` field from each incoming message to analyze message distribution by author.
 
-This project uses matplotlib and its animation capabilities for visualization. 
+## Functionality & Insights
 
-It generates three applications:
+- **Real-Time Processing:** The consumer continuously polls a Kafka topic for new messages.
+- **Data Extraction:** It parses each JSON message to extract the `author` field.
+- **Insight Focus:** By tracking the frequency of messages per author, you can quickly identify the most active contributors and monitor participation trends.
 
-1. A basic producer and consumer that exchange information via a dynamically updated file. 
-2. A JSON producer and consumer that exchange information via a Kafka topic. 
-3. A CSV producer and consumer that exchange information via a different Kafka topic. 
+## Visualization: Real-Time Bar Chart
 
-All three applications produce live charts to illustrate the data. 
+The consumer generates a **real-time bar chart** that updates dynamically:
+- Each bar represents an author.
+- The height of the bar reflects the number of messages sent by that author.
 
-## Task 1. Use Tools from Module 1 and 2
+**Why a Bar Chart?**
+- **Clarity:** Bar charts provide a clear and immediate visual representation of categorical data.
+- **Comparisons:** They allow for easy comparisons between different authors.
+- **Trends:** The dynamic updates help in spotting trends and anomalies in real-time.
 
-Before starting, ensure you have completed the setup tasks in <https://github.com/denisecase/buzzline-01-case> and <https://github.com/denisecase/buzzline-02-case> first. 
-Python 3.11 is required. 
+## Setting Up Kafka & Zookeeper
 
-## Task 2. Copy This Example Project and Rename
+Before running the producer and consumer, ensure that both Zookeeper and Kafka services are running.
 
-Once the tools are installed, copy/fork this project into your GitHub account
-and create your own version of this project to run and experiment with. 
-Follow the instructions in [FORK-THIS-REPO.md](https://github.com/denisecase/buzzline-01-case/docs/FORK-THIS-REPO.md).
+### Start Zookeeper Service (Terminal 1)
+1. Open a terminal (WSL/Mac/Linux).
+2. Navigate to the Kafka directory:
+   ```bash
+   cd ~/kafka
+   ```
+3. Ensure the script has execute permissions (may not be necessary):
+   ```bash
+   chmod +x zookeeper-server-start.sh
+   ```
+4. Start the Zookeeper service:
+   ```bash
+   bin/zookeeper-server-start.sh config/zookeeper.properties
+   ```
+5. **Keep this terminal open** while working with Kafka.
 
-OR: For more practice, add these example scripts or features to your earlier project. 
-You'll want to check requirements.txt, .env, and the consumers, producers, and util folders. 
-Use your README.md to record your workflow and commands. 
-    
+### Start Kafka (Terminal 2)
+1. Open a **new terminal**. (On Windows, open PowerShell and run `wsl` to get a WSL terminal first.)
+2. Navigate to the Kafka directory:
+   ```bash
+   cd ~/kafka
+   ```
+3. Ensure the script has execute permissions (may not be necessary):
+   ```bash
+   chmod +x kafka-server-start.sh
+   ```
+4. Start the Kafka service:
+   ```bash
+   bin/kafka-server-start.sh config/server.properties
+   ```
+5. **Keep this terminal open** while working with Kafka.
 
-## Task 3. Manage Local Project Virtual Environment
 
-Follow the instructions in [MANAGE-VENV.md](https://github.com/denisecase/buzzline-01-case/docs/MANAGE-VENV.md) to:
-1. Create your .venv
-2. Activate .venv
-3. Install the required dependencies using requirements.txt.
+## Running the Project Producer (Terminal 3)
 
-## Task 4. Start Zookeeper and Kafka (2 Terminals)
+To run the Kafka producer provided in the project without modifications, open a *WSL* terminal and run:
 
-If Zookeeper and Kafka are not already running, you'll need to restart them.
-See instructions at [SETUP-KAFKA.md] to:
-
-1. Start Zookeeper Service ([link](https://github.com/denisecase/buzzline-02-case/blob/main/docs/SETUP-KAFKA.md#step-7-start-zookeeper-service-terminal-1))
-2. Start Kafka ([link](https://github.com/denisecase/buzzline-02-case/blob/main/docs/SETUP-KAFKA.md#step-8-start-kafka-terminal-2))
-
----
-
-## Task 5. Start a Basic (File-based, not Kafka) Streaming Application
-
-This will take two terminals:
-
-1. One to run the producer which writes to a file in the data folder. 
-2. Another to run the consumer which reads from the dynamically updated file. 
-
-### Producer Terminal
-
-Start the producer to generate the messages. 
-
-In VS Code, open a NEW terminal.
-Use the commands below to activate .venv, and start the producer. 
-
-Windows:
-
-```shell
-.venv\Scripts\activate
-py -m producers.basic_json_producer_case
+```bash
+py -m producers.project_producer_case
 ```
 
-Mac/Linux:
-```zsh
-source .venv/bin/activate
-python3 -m producers.basic_json_producer_case
+> **Note:** Ensure that Kafka is running before executing the producer to avoid connection issues.
+
+## Running the New Project Consumer (Terminal 4)
+
+To run the `project_consumer_nickelias.py` script, open a *WSL* terminal and execute:
+
+```bash
+py -m consumers.project_producer_nickelias
 ```
 
-### Consumer Terminal
+This will start the consumer, and you'll see the real-time bar chart updating as new messages are processed.
 
-Start the associated consumer that will process and visualize the messages. 
 
-In VS Code, open a NEW terminal in your root project folder. 
-Use the commands below to activate .venv, and start the consumer. 
+## Git Workflow
 
-Windows:
-```shell
-.venv\Scripts\activate
-py -m consumers.basic_json_consumer_case
+As you work on this project, remember to use Git for version control. Here are the steps to track and push your changes:
+
+```bash
+git add README.md project_consumer_nickelias.py
+git commit -m "Add project consumer and update README"
+git push -u origin main
 ```
 
-Mac/Linux:
-```zsh
-source .venv/bin/activate
-python3 -m consumers.basic_json_consumer_case
-```
+> **Tip:** Replace `main` with the correct branch name if necessary.
 
-### Review the Application Code
+## Additional Notes
 
-Review the code for both the producer and the consumer. 
-Understand how the information is generated, written to a file, and read and processed. 
-Review the visualization code to see how the live chart is produced. 
-When done, remember to kill the associated terminals for the producer and consumer. 
-
-
----
-
-## Task 6. Start a (Kafka-based) JSON Streaming Application
-
-This will take two terminals:
-
-1. One to run the producer which writes to a Kafka topic. 
-2. Another to run the consumer which reads from that Kafka topic.
-
-For each one, you will need to: 
-1. Open a new terminal. 
-2. Activate your .venv.
-3. Know the command that works on your machine to execute python (e.g. py or python3).
-4. Know how to use the -m (module flag to run your file as a module).
-5. Know the full name of the module you want to run. 
-   - Look in the producers folder for json_producer_case.
-   - Look in the consumers folder for json_consumer_case.
-
-
-### Review the Application Code
-
-Review the code for both the producer and the consumer. 
-Understand how the information is generated and written to a Kafka topic, and consumed from the topic and processed. 
-Review the visualization code to see how the live chart is produced. 
-
-Compare the non-Kafka JSON streaming application to the Kafka JSON streaming application.
-By organizing code into reusable functions, which functions can be reused? 
-Which functions must be updated based on the sharing mechanism? 
-What new functions/features must be added to work with a Kafka-based streaming system?
-
-When done, remember to kill the associated terminals for the producer and consumer. 
-
----
-
-## Task 7. Start a (Kafka-based) CSV Streaming Application
-
-This will take two terminals:
-
-1. One to run the producer which writes to a Kafka topic. 
-2. Another to run the consumer which reads from that Kafka topic.
-
-For each one, you will need to: 
-1. Open a new terminal. 
-2. Activate your .venv.
-3. Know the command that works on your machine to execute python (e.g. py or python3).
-4. Know how to use the -m (module flag to run your file as a module).
-5. Know the full name of the module you want to run. 
-   - Look in the producers folder for csv_producer_case.
-   - Look in the consumers folder for csv_consumer_case.
-
-### Review the Application Code
-
-Review the code for both the producer and the consumer. 
-Understand how the information is generated and written to a Kafka topic, and consumed from the topic and processed. 
-Review the visualization code to see how the live chart is produced. 
-
-Compare the JSON application to the CSV streaming application.
-By organizing code into reusable functions, which functions can be reused? 
-Which functions must be updated based on the type of data?
-How does the visualization code get changed based on the type of data and type of chart used?
-Which aspects are similar between the different types of data? 
-
-When done, remember to kill the associated terminals for the producer and consumer. 
-
----
-
-## Possible Explorations
-
-- JSON: Process messages in batches of 5 messages.
-- JSON:Limit the display to the top 3 authors.
-- Modify chart appearance.
-- Stream a different set of data and visualize the custom stream with an appropriate chart. 
-- How do we find out what types of charts are available? 
-- How do we find out what attributes and colors are available?
-
----
-
-## Later Work Sessions
-When resuming work on this project:
-1. Open the folder in VS Code. 
-2. Start the Zookeeper service.
-3. Start the Kafka service.
-4. Activate your local project virtual environment (.env).
-
-## Save Space
-To save disk space, you can delete the .venv folder when not actively working on this project.
-You can always recreate it, activate it, and reinstall the necessary packages later. 
-Managing Python virtual environments is a valuable skill. 
-
-## License
-This project is licensed under the MIT License as an example project. 
-You are encouraged to fork, copy, explore, and modify the code as you like. 
-See the [LICENSE](LICENSE.txt) file for more.
-
-## Live Chart Examples
-
-Live Bar Chart (JSON file streaming)
-
-![Basic JSON (file-exchange)](images/live_bar_chart_basic_example.jpg)
-
-Live Bar Chart (Kafka JSON streaming)
-
-![JSON (Kafka)](images/live_bar_chart_example.jpg)
-
-Live Line Chart with Alert (Kafka CSV streaming)
-
-![CSV (Kafka)](images/live_line_chart_example.jpg)
-
+- **Dependencies:** Ensure you have installed the required dependencies:
+  - `matplotlib`
+  - `kafka-python` (or your preferred Kafka client library)
+  - `python-dotenv`
+- **Configuration:** Update your `.env` file with the correct Kafka topic and consumer group ID.
+- **Kafka Setup:** Refer to the Kafka and Zookeeper setup instructions above to ensure both services are running before starting the producer and consumer.
